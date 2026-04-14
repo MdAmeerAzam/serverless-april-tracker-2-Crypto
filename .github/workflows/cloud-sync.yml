@@ -1,0 +1,72 @@
+name: Cloud Sync & Backup
+
+on:
+  schedule:
+    # Sync: every 15 minutes
+    - cron: '0,15,30,45 * * * *'
+    # Backup: every 15 minutes with 2-minute offset
+    - cron: '2,17,32,47 * * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+jobs:
+  sync:
+    name: Sync Bybit → Supabase
+    # Only run sync on the :00/:15/:30/:45 schedule
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'schedule' && 
+       contains('0,15,30,45', format('{0}', github.run_number)))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Sync (Bitcoin & Crypto → Supabase)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
+        run: node scripts/run_sync.js
+
+  backup:
+    name: Backup Supabase → Google Sheets
+    # Only run backup on the :02/:17/:32/:47 schedule
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'schedule' && 
+       contains('2,17,32,47', format('{0}', github.run_number)))
+    runs-on: ubuntu-latest
+    needs: []
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Write Google credentials
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
+
+      - name: Run Backup (Supabase → Google Sheets)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
+        run: node scripts/run_backup.js

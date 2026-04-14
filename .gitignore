@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.db
+.vercel/
+credentials.json
+config.js
