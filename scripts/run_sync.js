@@ -5,7 +5,7 @@ const { PSAR } = require('technicalindicators');
 
 const BITCOIN_ASSETS = [
     { tableName: 'klines',          symbol: 'BTCUSDT', category: 'linear', interval: '240' },
-    { tableName: 'klines_12h',      symbol: 'BTCUSDT', category: 'linear', interval: '720', synthetic: true, sourceTable: 'klines' },
+    { tableName: 'klines_12h',      symbol: 'BTCUSDT', category: 'linear', interval: '720' },
     { tableName: 'klines_daily',    symbol: 'BTCUSDT', category: 'linear', interval: 'D' },
     { tableName: 'klines_weekly',   symbol: 'BTCUSDT', category: 'linear', interval: 'W' },
     { tableName: 'klines_monthly',  symbol: 'BTCUSDT', category: 'linear', interval: 'M' },
@@ -20,6 +20,7 @@ const CRYPTO_ASSETS = [
 
 const CRYPTO_INTERVALS = [
     { interval: '4h',      bybit: '240' },
+    { interval: '12h',     bybit: '720' },
     { interval: 'daily',   bybit: 'D' },
     { interval: 'weekly',  bybit: 'W' },
     { interval: 'monthly', bybit: 'M' },
@@ -40,32 +41,7 @@ async function fetchBybit(category, symbol, interval, limit = 200) {
     }));
 }
 
-async function synthesize12h(sourceTable) {
-    const client = await pool.connect();
-    try {
-        const { rows } = await client.query(`SELECT * FROM ${sourceTable} ORDER BY timestamp DESC LIMIT 600`);
-        rows.reverse();
-        const synthetic = [];
-        let chunk = [];
-        for (const row of rows) {
-            chunk.push(row);
-            if (chunk.length === 3) {
-                synthetic.push({
-                    timestamp: chunk[0].timestamp,
-                    open:   Number(chunk[0].open),
-                    high:   Math.max(...chunk.map(c => Number(c.high))),
-                    low:    Math.min(...chunk.map(c => Number(c.low))),
-                    close:  Number(chunk[2].closevalue),
-                    volume: chunk.reduce((s, c) => s + Number(c.closevol || 0), 0)
-                });
-                chunk = [];
-            }
-        }
-        return synthetic;
-    } finally {
-        client.release();
-    }
-}
+
 
 async function processAndSave(tableName, klines) {
     if (klines.length < 3) return;
@@ -181,16 +157,6 @@ async function processAndSave(tableName, klines) {
                 } catch (e) {
                     console.log(`  ✖ ${tableName}: ${e.message}`);
                 }
-            }
-            // 12h synthetic
-            const t12 = `${asset.asset}_${asset.market}_12h`;
-            process.stdout.write(`  → ${t12} (synthetic)... `);
-            try {
-                const klines = await synthesize12h(`${asset.asset}_${asset.market}_4h`);
-                await processAndSave(t12, klines);
-            } catch (e) {
-                console.log(`  ✖ ${t12}: ${e.message}`);
-            }
         }
 
         console.log('\n[Sync Complete]\n');
