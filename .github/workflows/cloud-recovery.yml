@@ -1,0 +1,18 @@
+name: Execute Deep Recovery
+on: workflow_dispatch
+jobs:
+  recover:
+    name: Cloud Crypto Deep Recovery
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm install
+      - run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
+      - name: Reconstruct Google Sheet
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: node scripts/recovery_sheet_push_infinity.js
