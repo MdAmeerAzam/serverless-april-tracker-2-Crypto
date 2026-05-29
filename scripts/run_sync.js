@@ -114,6 +114,10 @@ async function processAndSave(tableName, klines) {
                     sar1=EXCLUDED.sar1, sar2=EXCLUDED.sar2, sar3=EXCLUDED.sar3
             `);
         }
+
+        // Auto-heal dirty historical Zero-Reset violations
+        await client.query(`UPDATE ${tableName} SET sar3 = 0 WHERE sar3 = sar1 AND sar1 != 0`);
+
         console.log(`  ✔ ${tableName}: ${klines.length} rows synced`);
     } catch (err) {
         await client.query('ROLLBACK');
