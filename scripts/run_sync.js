@@ -64,18 +64,7 @@ async function processAndSave(tableName, klines) {
         const off1 = klines.length - sar1Results.length;
         const off2 = klines.length - sar2Results.length;
 
-        const insertQuery = `
-            INSERT INTO ${tableName}
-            (timestamp, open, high, low, closevalue, closepts, closepct, closevol, sar1, sar2, sar3)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-            ON CONFLICT (timestamp) DO UPDATE SET
-                open=EXCLUDED.open, high=EXCLUDED.high, low=EXCLUDED.low,
-                closevalue=EXCLUDED.closevalue, closepts=EXCLUDED.closepts,
-                closepct=EXCLUDED.closepct, closevol=EXCLUDED.closevol,
-                sar1=EXCLUDED.sar1, sar2=EXCLUDED.sar2, sar3=EXCLUDED.sar3
-        `;
-
-        await client.query('BEGIN');
+        const formattedValues = [];
         for (let i = 0; i < klines.length; i++) {
             const k = klines[i];
             const isLive = (i === klines.length - 1);
@@ -108,13 +97,23 @@ async function processAndSave(tableName, klines) {
             const pts = prevClose > 0 ? k.close - prevClose : 0;
             const pct = prevClose > 0 ? (pts / prevClose) * 100 : 0;
 
-            await client.query(insertQuery, [
-                k.timestamp, k.open, k.high, k.low, k.close,
-                parseFloat(pts.toFixed(5)), parseFloat(pct.toFixed(5)), k.volume,
-                s1, s2, s3
-            ]);
+            formattedValues.push(`(${k.timestamp}, ${k.open}, ${k.high}, ${k.low}, ${k.close}, ${parseFloat(pts.toFixed(5))}, ${parseFloat(pct.toFixed(5))}, ${k.volume}, ${s1}, ${s2}, ${s3})`);
         }
-        await client.query('COMMIT');
+
+        const chunkSize = 1000;
+        for (let i = 0; i < formattedValues.length; i += chunkSize) {
+            const chunk = formattedValues.slice(i, i + chunkSize);
+            await client.query(`
+                INSERT INTO ${tableName}
+                (timestamp, open, high, low, closevalue, closepts, closepct, closevol, sar1, sar2, sar3)
+                VALUES ${chunk.join(',')}
+                ON CONFLICT (timestamp) DO UPDATE SET
+                    open=EXCLUDED.open, high=EXCLUDED.high, low=EXCLUDED.low,
+                    closevalue=EXCLUDED.closevalue, closepts=EXCLUDED.closepts,
+                    closepct=EXCLUDED.closepct, closevol=EXCLUDED.closevol,
+                    sar1=EXCLUDED.sar1, sar2=EXCLUDED.sar2, sar3=EXCLUDED.sar3
+            `);
+        }
         console.log(`  ✔ ${tableName}: ${klines.length} rows synced`);
     } catch (err) {
         await client.query('ROLLBACK');
