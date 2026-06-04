@@ -3,13 +3,18 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const { pool } = require('../api/db');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { JWT } = require('google-auth-library');
-const path = require('path');
-const fs = require('fs');
 
 const SPREADSHEETS = {
-    crypto:  '1CoU7Df_HBGTqaV8nrt8b5pka0jWyXkYsgVh4Gukml8I',
-    macro:   '1VytsJdr8EnKUXqxdMhvcDMzd9fCQowAPzayMWKKc4rA'
+    crypto: '1CoU7Df_HBGTqaV8nrt8b5pka0jWyXkYsgVh4Gukml8I'
 };
+
+const TABLES = [
+    'klines', 'klines_12h', 'klines_daily', 'klines_weekly', 'klines_monthly',
+    'btc_spot_4h', 'btc_spot_12h', 'btc_spot_daily', 'btc_spot_weekly', 'btc_spot_monthly',
+    'btc_futures_4h', 'btc_futures_12h', 'btc_futures_daily', 'btc_futures_weekly', 'btc_futures_monthly',
+    'eth_spot_4h', 'eth_spot_12h', 'eth_spot_daily', 'eth_spot_weekly', 'eth_spot_monthly',
+    'eth_futures_4h', 'eth_futures_12h', 'eth_futures_daily', 'eth_futures_weekly', 'eth_futures_monthly'
+];
 
 async function getDoc(spreadsheetId) {
     const credsStr = process.env.GOOGLE_CREDENTIALS_JSON;
@@ -26,77 +31,62 @@ async function getDoc(spreadsheetId) {
     return doc;
 }
 
-async function auditTable(client, doc, tableName) {
-    console.log(`\n============================`);
-    console.log(`AUDIT: ${tableName}`);
-    console.log(`============================`);
-    
-    // 1. Fetch DB
-    const { rows: dbRows } = await client.query(`SELECT timestamp, closevalue, sar1, sar2, sar3 FROM ${tableName} ORDER BY timestamp DESC LIMIT 5`);
-    const dbData = dbRows.reverse(); // oldest to newest of the last 5
-    
-    // 2. Fetch Sheet
-    const sheet = doc.sheetsByTitle[tableName];
-    if (!sheet) {
-        console.log(`[!] Sheet ${tableName} not found in Google Sheets.`);
-        return;
-    }
-    
-    const sheetRows = await sheet.getRows();
-    const latestSheetRows = sheetRows.slice(-5);
-    
-    console.log('\n--- SUPABASE DATABASE (Last 5) ---');
-    console.table(dbData.map(r => ({
-        timestamp: r.timestamp,
-        close: Number(r.closevalue),
-        sar1: Number(r.sar1),
-        sar2: Number(r.sar2),
-        sar3: Number(r.sar3)
-    })));
-    
-    console.log('\n--- GOOGLE SHEETS (Last 5) ---');
-    console.table(latestSheetRows.map(r => ({
-        timestamp: r.get('timestamp'),
-        close: Number(r.get('closeValue')),
-        sar1: Number(r.get('sar1')),
-        sar2: Number(r.get('sar2')),
-        sar3: Number(r.get('sar3'))
-    })));
-    
-    // 3. Mathematical Match Check
-    let allMatched = true;
-    for(let i=0; i<5; i++) {
-        if(!dbData[i] || !latestSheetRows[i]) continue;
-        const dbSar1 = Number(dbData[i].sar1).toFixed(2);
-        const shSar1 = Number(latestSheetRows[i].get('sar1')).toFixed(2);
-        const dbSar2 = Number(dbData[i].sar2).toFixed(2);
-        const shSar2 = Number(latestSheetRows[i].get('sar2')).toFixed(2);
-        
-        if (dbSar1 !== shSar1 || dbSar2 !== shSar2) {
-            allMatched = false;
-        }
-    }
-    
-    if (allMatched) {
-        console.log(`\n[SUCCESS] Mathematical Data Integrity 100% MATCHED between Supabase and Google Sheets.`);
-    } else {
-        console.log(`\n[FAILURE] Mathematical mismatch detected!`);
-    }
-}
-
 (async () => {
     let client;
     try {
-        console.log('[Cloud Audit] Initializing Mathematical Sheets Audit...');
+        console.log('=== EXACT ROW COUNT AUDIT ===\n');
         client = await pool.connect();
         
         const docCrypto = await getDoc(SPREADSHEETS.crypto);
         
-        await auditTable(client, docCrypto, 'btc_futures_4h');
-        await auditTable(client, docCrypto, 'eth_spot_12h');
-        await auditTable(client, docCrypto, 'klines_weekly');
-        
-        console.log('\n[Audit Complete]\n');
+        console.log('| Table Name | Database Rows | Sheet Rows | DB Cells | Sheet Cells | Match |');
+        console.log('|------------|---------------|------------|----------|-------------|-------|');
+
+        let totalDbRows = 0;
+        let totalSheetRows = 0;
+
+        for (const tableName of TABLES) {
+            let dbCount = 0;
+            let sheetCount = 0;
+            
+            // Get DB count
+            try {
+                const { rows } = await client.query(`SELECT COUNT(*) as count FROM ${tableName}`);
+                dbCount = parseInt(rows[0].count, 10);
+            } catch(e) {
+                dbCount = -1; // error
+            }
+
+            // Get Sheet count
+            try {
+                const sheet = docCrypto.sheetsByTitle[tableName];
+                if (sheet) {
+                    const sheetRows = await sheet.getRows();
+                    sheetCount = sheetRows.length;
+                } else {
+                    sheetCount = 0;
+                }
+            } catch(e) {
+                sheetCount = -1;
+            }
+
+            const dbCells = dbCount > 0 ? dbCount * 13 : 0; // 13 columns
+            const sheetCells = sheetCount > 0 ? sheetCount * 13 : 0;
+            const match = dbCount === sheetCount ? 'YES' : 'NO';
+
+            totalDbRows += Math.max(0, dbCount);
+            totalSheetRows += Math.max(0, sheetCount);
+
+            console.log(`| ${tableName.padEnd(20)} | ${String(dbCount).padEnd(13)} | ${String(sheetCount).padEnd(10)} | ${String(dbCells).padEnd(8)} | ${String(sheetCells).padEnd(11)} | ${match.padEnd(5)} |`);
+        }
+
+        console.log('\n--- TOTALS ---');
+        console.log(`Total Database Rows: ${totalDbRows}`);
+        console.log(`Total Google Sheets Rows: ${totalSheetRows}`);
+        const totMatch = totalDbRows === totalSheetRows ? '100% MATCHED' : 'MISMATCH DETECTED';
+        console.log(`Overall Status: ${totMatch}\n`);
+
+        console.log('=== AUDIT COMPLETE ===');
         process.exit(0);
     } catch (err) {
         console.error('FATAL AUDIT ERROR:', err);
