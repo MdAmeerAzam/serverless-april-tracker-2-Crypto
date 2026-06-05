@@ -36,6 +36,17 @@ async function getDoc(spreadsheetId) {
     try {
         console.log('=== EXACT ROW COUNT AUDIT ===\n');
         client = await pool.connect();
+        const dbCounts = {};
+        for (const tableName of TABLES) {
+            try {
+                const { rows } = await client.query(`SELECT COUNT(*) as count FROM ${tableName}`);
+                dbCounts[tableName] = parseInt(rows[0].count, 10);
+            } catch(e) {
+                dbCounts[tableName] = -1; // error
+            }
+        }
+        client.release();
+        client = null;
         
         const docCrypto = await getDoc(SPREADSHEETS.crypto);
         
@@ -46,17 +57,9 @@ async function getDoc(spreadsheetId) {
         let totalSheetRows = 0;
 
         for (const tableName of TABLES) {
-            let dbCount = 0;
+            const dbCount = dbCounts[tableName];
             let sheetCount = 0;
             
-            // Get DB count
-            try {
-                const { rows } = await client.query(`SELECT COUNT(*) as count FROM ${tableName}`);
-                dbCount = parseInt(rows[0].count, 10);
-            } catch(e) {
-                dbCount = -1; // error
-            }
-
             // Get Sheet count
             try {
                 const sheet = docCrypto.sheetsByTitle[tableName];
