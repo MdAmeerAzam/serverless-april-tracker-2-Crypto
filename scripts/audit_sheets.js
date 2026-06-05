@@ -47,6 +47,7 @@ async function getDoc(spreadsheetId) {
         }
         client.release();
         client = null;
+        await pool.end(); // Sever pool completely to avoid background TCP timeout crashes
         
         const docCrypto = await getDoc(SPREADSHEETS.crypto);
         
