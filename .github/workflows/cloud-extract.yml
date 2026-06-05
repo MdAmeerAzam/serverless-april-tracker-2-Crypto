@@ -4,9 +4,8 @@ jobs:
   extract:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract Creds
+      - name: Extract
+        env:
+          CREDS: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
         run: |
-          echo "=== B64_CREDS_START ==="
-          echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' | base64 -w 0
-          echo ""
-          echo "=== B64_CREDS_END ==="
+          node -e "console.log('=== B64_CREDS_START ==='); console.log(Buffer.from(process.env.CREDS).toString('base64')); console.log('=== B64_CREDS_END ===');"
