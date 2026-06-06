@@ -11,14 +11,6 @@ const bybitClient = new RestClientV5({
     enable_time_sync: true,
 });
 
-const BITCOIN_ASSETS = [
-    { tableName: 'klines',          symbol: 'BTCUSDT', category: 'linear', interval: '240' },
-    { tableName: 'klines_12h',      symbol: 'BTCUSDT', category: 'linear', interval: '720' },
-    { tableName: 'klines_daily',    symbol: 'BTCUSDT', category: 'linear', interval: 'D' },
-    { tableName: 'klines_weekly',   symbol: 'BTCUSDT', category: 'linear', interval: 'W' },
-    { tableName: 'klines_monthly',  symbol: 'BTCUSDT', category: 'linear', interval: 'M' },
-];
-
 const CRYPTO_ASSETS = [
     { asset: 'btc', market: 'spot',    symbol: 'BTCUSDT', category: 'spot' },
     { asset: 'btc', market: 'futures', symbol: 'BTCUSDT', category: 'linear' },
@@ -140,23 +132,6 @@ async function processAndSave(tableName, klines) {
 (async () => {
     try {
         console.log('\n[GitHub Actions] Starting Sync Run...\n');
-
-        // ── Bitcoin
-        console.log('── Bitcoin (Bybit linear BTCUSDT)');
-        for (const a of BITCOIN_ASSETS) {
-            process.stdout.write(`  → ${a.tableName}... `);
-            try {
-                let klines;
-                if (a.synthetic) {
-                    klines = await synthesize12h(a.sourceTable);
-                } else {
-                    klines = await fetchBybit(a.category, a.symbol, a.interval);
-                }
-                await processAndSave(a.tableName, klines);
-            } catch (e) {
-                console.log(`  ✖ ${a.tableName}: ${e.message}`);
-            }
-        }
 
         // ── Crypto
         console.log('\n── Crypto (BTC + ETH spot/futures)');

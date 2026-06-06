@@ -10,14 +10,6 @@ const bybitClient = new RestClientV5({
     enable_time_sync: true,
 });
 
-const BITCOIN_ASSETS = [
-    { tableName: 'klines',          symbol: 'BTCUSDT', category: 'linear', interval: '240', nameInterval: '4h' },
-    { tableName: 'klines_12h',      symbol: 'BTCUSDT', category: 'linear', interval: '720', nameInterval: '12h' },
-    { tableName: 'klines_daily',    symbol: 'BTCUSDT', category: 'linear', interval: 'D', nameInterval: 'daily' },
-    { tableName: 'klines_weekly',   symbol: 'BTCUSDT', category: 'linear', interval: 'W', nameInterval: 'weekly' },
-    { tableName: 'klines_monthly',  symbol: 'BTCUSDT', category: 'linear', interval: 'M', nameInterval: 'monthly' },
-];
-
 const CRYPTO_ASSETS = [
     { asset: 'btc', market: 'spot',    symbol: 'BTCUSDT', category: 'spot' },
     { asset: 'btc', market: 'futures', symbol: 'BTCUSDT', category: 'linear' },
@@ -109,19 +101,6 @@ async function processSar2Genesis(tableName, klines, healingWindowFrames) {
 (async () => {
     try {
         console.log('\n[GitHub Actions] Starting Hourly SAR 2 Genesis Run...\n');
-
-        // ── Bitcoin
-        console.log('── Bitcoin (Bybit linear BTCUSDT)');
-        for (const a of BITCOIN_ASSETS) {
-            process.stdout.write(`  → ${a.tableName}... `);
-            try {
-                const klines = await fetchBybit(a.category, a.symbol, a.interval);
-                const windowFrames = HEALING_WINDOW[a.nameInterval] || 20;
-                await processSar2Genesis(a.tableName, klines, windowFrames);
-            } catch (e) {
-                console.log(`  ✖ ${a.tableName}: ${e.message}`);
-            }
-        }
 
         // ── Crypto
         console.log('\n── Crypto (BTC + ETH spot/futures)');

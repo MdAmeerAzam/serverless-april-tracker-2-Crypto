@@ -2,11 +2,6 @@ const { pool } = require('../api/db.js');
 const { PSAR } = require('technicalindicators');
 
 const TABLES = [
-    { name: 'klines', symbol: 'BTCUSDT', category: 'spot', interval: '240' },
-    { name: 'klines_8h', symbol: 'BTCUSDT', category: 'spot', interval: '480' },
-    { name: 'klines_daily', symbol: 'BTCUSDT', category: 'spot', interval: 'D' },
-    { name: 'klines_weekly', symbol: 'BTCUSDT', category: 'spot', interval: 'W' },
-    { name: 'klines_monthly', symbol: 'BTCUSDT', category: 'spot', interval: 'M' },
     { name: 'btc_futures_4h', symbol: 'BTCUSDT', category: 'linear', interval: '240' },
     { name: 'btc_futures_8h', symbol: 'BTCUSDT', category: 'linear', interval: '480' },
     { name: 'btc_futures_daily', symbol: 'BTCUSDT', category: 'linear', interval: 'D' },
@@ -15,7 +10,6 @@ const TABLES = [
 ];
 
 const SYNTHETIC_12H = [
-    { name: 'klines_12h', source: 'klines' },
     { name: 'btc_futures_12h', source: 'btc_futures_4h' }
 ];
 
@@ -156,8 +150,6 @@ async function runInfinity() {
     }
 
     const SYNTHETIC_LAYERS = [
-        { name: 'klines_12h', source: 'klines', multiplier: 3 },
-        { name: 'klines_8h', source: 'klines', multiplier: 2 },
         { name: 'btc_futures_12h', source: 'btc_futures_4h', multiplier: 3 },
         { name: 'btc_futures_8h', source: 'btc_futures_4h', multiplier: 2 }
     ];

@@ -2,10 +2,6 @@ const { pool } = require('../api/db.js');
 const { PSAR } = require('technicalindicators');
 
 const TABLES = [
-    { name: 'klines', symbol: 'BTCUSDT', category: 'spot', interval: '240' },
-    { name: 'klines_daily', symbol: 'BTCUSDT', category: 'spot', interval: 'D' },
-    { name: 'klines_weekly', symbol: 'BTCUSDT', category: 'spot', interval: 'W' },
-    { name: 'klines_monthly', symbol: 'BTCUSDT', category: 'spot', interval: 'M' },
     { name: 'btc_futures_4h', symbol: 'BTCUSDT', category: 'linear', interval: '240' },
     { name: 'btc_futures_daily', symbol: 'BTCUSDT', category: 'linear', interval: 'D' },
     { name: 'btc_futures_weekly', symbol: 'BTCUSDT', category: 'linear', interval: 'W' },
@@ -14,7 +10,6 @@ const TABLES = [
 
 // 12h tables are synthetic, they will be handled separately by pulling from 4h tables
 const SYNTHETIC_12H = [
-    { name: 'klines_12h', source: 'klines' },
     { name: 'btc_futures_12h', source: 'btc_futures_4h' }
 ];
 

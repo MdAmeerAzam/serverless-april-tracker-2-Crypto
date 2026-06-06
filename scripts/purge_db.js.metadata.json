@@ -1,0 +1,5 @@
+{
+  "artifactType":  "ARTIFACT_TYPE_OTHER",
+  "summary":  "Purge script using direct database port 5432 to bypass PgBouncer.",
+  "updatedAt":  "2026-06-06T10:36:30.631239600Z"
+}
