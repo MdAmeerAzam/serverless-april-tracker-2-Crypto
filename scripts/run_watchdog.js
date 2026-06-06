@@ -82,7 +82,14 @@ async function checkTable(client, t) {
     return result;
 }
 
+const { isSystemLocked } = require('../api/mutex');
+
 (async () => {
+    if (await isSystemLocked('MAINTENANCE_LOCK')) {
+        console.log('[ABORT] Global Mutex Lock is active. Heavy cloud maintenance in progress across distributed network.');
+        process.exit(0); 
+    }
+
     console.log('\n[Cloud Watchdog] Initializing Deep Perimeter Scan...');
     const client = await pool.connect();
     let totalIssues = 0;

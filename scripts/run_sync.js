@@ -129,7 +129,14 @@ async function processAndSave(tableName, klines) {
     }
 }
 
+const { isSystemLocked } = require('../api/mutex');
+
 (async () => {
+    if (await isSystemLocked('MAINTENANCE_LOCK')) {
+        console.log('[ABORT] Global Mutex Lock is active. Heavy cloud maintenance in progress across distributed network.');
+        process.exit(0); 
+    }
+
     try {
         console.log('\n[GitHub Actions] Starting Sync Run...\n');
 
