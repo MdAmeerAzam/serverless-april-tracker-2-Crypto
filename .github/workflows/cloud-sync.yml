@@ -1,13 +1,8 @@
 name: Cloud Sync & Backup
 
 on:
-  schedule:
-    # Sync: every 15 minutes
-    - cron: '0,15,30,45 * * * *'
-    # Backup: every 15 minutes with 2-minute offset
-    - cron: '2,17,32,47 * * * *'
-    # Watchdog: every hour at minute 5
-    - cron: '5 * * * *'
+  # TEMPORARILY STOPPED — June 10, 2026. Crons disabled pending genesis + new sync scripts.
+  # Will be re-enabled after Phases G1-G5 complete.
   workflow_dispatch:
 
 concurrency:

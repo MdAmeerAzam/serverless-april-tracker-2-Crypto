@@ -1,7 +1,7 @@
 name: SAR 2 True Genesis
 on:
-  schedule:
-    - cron: '1 * * * *' # Minute 1 of every hour (UTC)
+  # STOPPED — June 10, 2026. SAR2 Genesis hourly cron disabled.
+  # Replaced by local genesis engine. Manual dispatch only.
   workflow_dispatch:
 jobs:
   genesis:
