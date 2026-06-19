@@ -1,11 +1,17 @@
 const { Client } = require('pg');
 
+// Shared connection config — avoids %40 URL-parse issues when DATABASE_URL is unset
+function getDbConfig() {
+    return process.env.DATABASE_URL
+        ? { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
+        : { host: 'aws-1-ap-northeast-1.pooler.supabase.com', port: 6543, database: 'postgres',
+            user: 'postgres.ybnpnpisvalswxyjjfvx', password: 'Qzh3nc8S@UQezjc',
+            ssl: { rejectUnauthorized: false } };
+}
+
 async function acquireGlobalLock(lockId, lockedBy, ttlMinutes = 60) {
-    const client = new Client({ 
-        connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false }
-    });
-    client.on('error', () => {}); // Neutralize async TCP drops
+    const client = new Client(getDbConfig());
+    client.on('error', () => {});
     await client.connect();
     
     try {
@@ -27,38 +33,32 @@ async function acquireGlobalLock(lockId, lockedBy, ttlMinutes = 60) {
 }
 
 async function isSystemLocked(lockId) {
-    // 1. Randomized jitter to stagger identical cron fires (100ms to 3000ms offset)
+    // Randomized jitter to stagger identical cron fires
     const jitterMs = Math.floor(Math.random() * 2900) + 100;
     await new Promise(r => setTimeout(r, jitterMs));
 
-    const client = new Client({ 
-        connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false }
-    });
+    const client = new Client(getDbConfig());
     client.on('error', () => {});
-    
+
     try {
         await client.connect();
         await client.query(`DELETE FROM system_locks WHERE expires_at < NOW()`);
         const res = await client.query(`SELECT * FROM system_locks WHERE lock_id = $1`, [lockId]);
         return res.rows.length > 0;
     } catch (e) {
-        // 2. If Supabase PgBouncer is at 60/60 limit, swallow ECHECKOUTTIMEOUT and gracefully abort
+        // If PgBouncer at connection limit, gracefully defer
         if (e.message.includes('timeout') || e.code === 'ECONNRESET') {
-            console.log('[MUTEX OVERLOAD] DB connection limit reached. Gracefully deferring to next minute.');
-            return true; // Pretend it's locked to abort execution safely
+            console.log('[MUTEX OVERLOAD] DB connection limit reached. Gracefully deferring.');
+            return true;
         }
         throw e;
     } finally {
-        await client.end().catch(()=>{});
+        await client.end().catch(() => {});
     }
 }
 
 async function releaseGlobalLock(lockId) {
-    const client = new Client({ 
-        connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false }
-    });
+    const client = new Client(getDbConfig());
     client.on('error', () => {});
     await client.connect();
     
