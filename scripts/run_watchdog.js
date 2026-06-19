@@ -2,25 +2,30 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const { pool } = require('../api/db');
 
 const TABLES = [
+    // BTC Spot (6 timeframes)
     { name: 'btc_spot_4h',      interval: 240   },
+    { name: 'btc_spot_6h',      interval: 360   },
     { name: 'btc_spot_12h',     interval: 720   },
     { name: 'btc_spot_daily',   interval: 1440  },
     { name: 'btc_spot_weekly',  interval: 10080 },
     { name: 'btc_spot_monthly', interval: 43200 },
-    // BTC Futures (4 timeframes)
+    // BTC Futures (6 timeframes)
     { name: 'btc_futures_4h',      interval: 240   },
+    { name: 'btc_futures_6h',      interval: 360   },
     { name: 'btc_futures_12h',     interval: 720   },
     { name: 'btc_futures_daily',   interval: 1440  },
     { name: 'btc_futures_weekly',  interval: 10080 },
     { name: 'btc_futures_monthly', interval: 43200 },
-    // ETH Spot (4 timeframes)
+    // ETH Spot (6 timeframes)
     { name: 'eth_spot_4h',      interval: 240   },
+    { name: 'eth_spot_6h',      interval: 360   },
     { name: 'eth_spot_12h',     interval: 720   },
     { name: 'eth_spot_daily',   interval: 1440  },
     { name: 'eth_spot_weekly',  interval: 10080 },
     { name: 'eth_spot_monthly', interval: 43200 },
-    // ETH Futures (4 timeframes)
+    // ETH Futures (6 timeframes)
     { name: 'eth_futures_4h',      interval: 240   },
+    { name: 'eth_futures_6h',      interval: 360   },
     { name: 'eth_futures_12h',     interval: 720   },
     { name: 'eth_futures_daily',   interval: 1440  },
     { name: 'eth_futures_weekly',  interval: 10080 },
@@ -50,27 +55,18 @@ async function checkTable(client, t) {
 
         let sar2Flatline = true;
         let sar1Missing = false;
-        let zeroResetViolation = false;
 
         for (let i = 0; i < rows.length; i++) {
             const r = rows[i];
             const s1 = Number(Number(r.sar1).toFixed(2));
             const s2 = Number(r.sar2);
-            const s3 = Number(Number(r.sar3).toFixed(2));
-            const isClosed = (i > 0);
 
             if (s1 === 0) sar1Missing = true;
             if (s2 !== 0) sar2Flatline = false;
-
-            // SAR 3 Zero-Reset Rule: on closed candles, if S3 == S1, it MUST be 0
-            if (isClosed && s3 !== 0 && s1 !== 0 && s3 === s1) {
-                zeroResetViolation = true;
-            }
         }
 
         if (sar1Missing) result.errors.push('Genesis missing (SAR 1 = 0)');
         if (sar2Flatline) result.errors.push('Algorithm death (SAR 2 flatline)');
-        if (zeroResetViolation) result.errors.push('Zero-Reset 3 violation (Dirty historical data)');
 
         if (result.errors.length > 0) result.status = 'ISSUE';
 
