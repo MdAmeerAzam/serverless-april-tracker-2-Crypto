@@ -1,0 +1,22 @@
+name: Sheets Full Reset (One-Time G7)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sheets-reset:
+    name: Full Reset — Supabase → Google Sheets
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
+      - name: Run Full Sheets Reset
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: node scripts/run_sheets_reset.js

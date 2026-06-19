@@ -13,7 +13,7 @@ const SPREADSHEETS = {
 const CRYPTO_COMBOS = [];
 for (const asset of ['btc', 'eth']) {
     for (const market of ['spot', 'futures']) {
-        for (const interval of ['4h', '12h', 'daily', 'weekly', 'monthly']) {
+        for (const interval of ['4h', '6h', '12h', 'daily', 'weekly', 'monthly']) {
             CRYPTO_COMBOS.push(`${asset}_${market}_${interval}`);
         }
     }
