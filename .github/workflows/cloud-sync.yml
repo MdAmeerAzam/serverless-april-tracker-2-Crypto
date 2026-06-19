@@ -1,13 +1,19 @@
 name: Cloud Sync & Backup
 
 on:
-  # TEMPORARILY STOPPED — June 10, 2026. Crons disabled pending genesis + new sync scripts.
-  # Will be re-enabled after Phases G1-G5 complete.
+  schedule:
+    # Sync: every 15 minutes
+    - cron: '0,15,30,45 * * * *'
+    # Backup: every 15 minutes with 2-minute offset
+    - cron: '2,17,32,47 * * * *'
+    # Watchdog: every hour at minute 5
+    - cron: '5 * * * *'
   workflow_dispatch:
 
 concurrency:
   group: cloud-sync-repo2
-  cancel-in-progress: true
+  cancel-in-progress: false
+
 jobs:
   sync:
     name: Sync Bybit → Supabase
@@ -19,7 +25,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm install
+      - run: npm ci
       - name: Run Sync
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -37,7 +43,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm install
+      - run: npm ci
       - run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
       - name: Run Backup
         env:
@@ -54,8 +60,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm install
-      - name: Run Audit
+      - run: npm ci
+      - name: Run Watchdog
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: node scripts/run_watchdog.js
