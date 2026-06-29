@@ -1,67 +1,10 @@
-name: Cloud Sync & Backup
+name: Cloud Sync and Backup (RETIRED - use sync.yml backup.yml watchdog.yml)
 
 on:
-  schedule:
-    # Sync: every 15 minutes
-    - cron: '0,15,30,45 * * * *'
-    # Backup: every 15 minutes with 2-minute offset
-    - cron: '2,17,32,47 * * * *'
-    # Watchdog: every hour at minute 5
-    - cron: '5 * * * *'
   workflow_dispatch:
 
-concurrency:
-  group: cloud-sync-repo2
-  cancel-in-progress: false
-
 jobs:
-  sync:
-    name: Sync Bybit → Supabase
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && (github.event.schedule == '0,15,30,45 * * * *'))
+  info:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - name: Run Sync
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          BYBIT_API_KEY: ${{ secrets.BYBIT_API_KEY }}
-          BYBIT_API_SECRET: ${{ secrets.BYBIT_API_SECRET }}
-        run: node scripts/run_sync.js
-
-  backup:
-    name: Backup Supabase → Sheets
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && (github.event.schedule == '2,17,32,47 * * * *'))
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
-      - name: Run Backup
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: node scripts/run_backup.js
-
-  watchdog:
-    name: Crypto Cloud WATCHDOG
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '5 * * * *')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - name: Run Watchdog
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: node scripts/run_watchdog.js
+      - run: echo "This workflow is retired. Use sync.yml, backup.yml, watchdog.yml instead."

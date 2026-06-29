@@ -1,0 +1,26 @@
+name: Watchdog — Health Check
+
+on:
+  schedule:
+    - cron: '5 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: crypto-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    name: Crypto Cloud WATCHDOG
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run Watchdog
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: node scripts/run_watchdog.js

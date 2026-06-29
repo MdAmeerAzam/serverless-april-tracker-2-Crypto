@@ -1,0 +1,28 @@
+name: Sync — Bybit to Supabase
+
+on:
+  schedule:
+    - cron: '0,15,30,45 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: crypto-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync Bybit to Supabase
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run Sync
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          BYBIT_API_KEY: ${{ secrets.BYBIT_API_KEY }}
+          BYBIT_API_SECRET: ${{ secrets.BYBIT_API_SECRET }}
+        run: node scripts/run_sync.js
