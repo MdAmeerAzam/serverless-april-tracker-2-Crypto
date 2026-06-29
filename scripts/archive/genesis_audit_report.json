@@ -1,0 +1,225 @@
+{
+  "generatedAt": "2026-06-14T15:06:52.783Z",
+  "lockBoundary": "2025-06-09T23:59:59.000Z",
+  "tables": {
+    "btc_spot_4h": {
+      "status": "PASS",
+      "rows": 8613,
+      "firstCandle": "2021-07-05T12:00:00.000Z",
+      "lastCandle": "2025-06-09T20:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_spot_6h": {
+      "status": "PASS",
+      "rows": 5742,
+      "firstCandle": "2021-07-05T12:00:00.000Z",
+      "lastCandle": "2025-06-09T18:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_spot_12h": {
+      "status": "PASS",
+      "rows": 2871,
+      "firstCandle": "2021-07-05T12:00:00.000Z",
+      "lastCandle": "2025-06-09T12:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_spot_daily": {
+      "status": "PASS",
+      "rows": 1436,
+      "firstCandle": "2021-07-05T00:00:00.000Z",
+      "lastCandle": "2025-06-09T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_spot_weekly": {
+      "status": "PASS",
+      "rows": 206,
+      "firstCandle": "2021-07-05T00:00:00.000Z",
+      "lastCandle": "2025-06-09T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_spot_monthly": {
+      "status": "PASS",
+      "rows": 48,
+      "firstCandle": "2021-07-01T00:00:00.000Z",
+      "lastCandle": "2025-06-01T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_futures_4h": {
+      "status": "PASS",
+      "rows": 11416,
+      "firstCandle": "2020-03-25T08:00:00.000Z",
+      "lastCandle": "2025-06-09T20:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_futures_6h": {
+      "status": "PASS",
+      "rows": 7611,
+      "firstCandle": "2020-03-25T06:00:00.000Z",
+      "lastCandle": "2025-06-09T18:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_futures_12h": {
+      "status": "PASS",
+      "rows": 3806,
+      "firstCandle": "2020-03-25T00:00:00.000Z",
+      "lastCandle": "2025-06-09T12:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_futures_daily": {
+      "status": "PASS",
+      "rows": 1903,
+      "firstCandle": "2020-03-25T00:00:00.000Z",
+      "lastCandle": "2025-06-09T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_futures_weekly": {
+      "status": "PASS",
+      "rows": 273,
+      "firstCandle": "2020-03-23T00:00:00.000Z",
+      "lastCandle": "2025-06-09T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "btc_futures_monthly": {
+      "status": "PASS",
+      "rows": 64,
+      "firstCandle": "2020-03-01T00:00:00.000Z",
+      "lastCandle": "2025-06-01T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_spot_4h": {
+      "status": "PASS",
+      "rows": 8613,
+      "firstCandle": "2021-07-05T12:00:00.000Z",
+      "lastCandle": "2025-06-09T20:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_spot_6h": {
+      "status": "PASS",
+      "rows": 5742,
+      "firstCandle": "2021-07-05T12:00:00.000Z",
+      "lastCandle": "2025-06-09T18:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_spot_12h": {
+      "status": "PASS",
+      "rows": 2871,
+      "firstCandle": "2021-07-05T12:00:00.000Z",
+      "lastCandle": "2025-06-09T12:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_spot_daily": {
+      "status": "PASS",
+      "rows": 1436,
+      "firstCandle": "2021-07-05T00:00:00.000Z",
+      "lastCandle": "2025-06-09T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_spot_weekly": {
+      "status": "PASS",
+      "rows": 206,
+      "firstCandle": "2021-07-05T00:00:00.000Z",
+      "lastCandle": "2025-06-09T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_spot_monthly": {
+      "status": "PASS",
+      "rows": 48,
+      "firstCandle": "2021-07-01T00:00:00.000Z",
+      "lastCandle": "2025-06-01T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_futures_4h": {
+      "status": "PASS",
+      "rows": 9288,
+      "firstCandle": "2021-03-15T00:00:00.000Z",
+      "lastCandle": "2025-06-09T20:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_futures_6h": {
+      "status": "PASS",
+      "rows": 6192,
+      "firstCandle": "2021-03-15T00:00:00.000Z",
+      "lastCandle": "2025-06-09T18:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_futures_12h": {
+      "status": "PASS",
+      "rows": 3096,
+      "firstCandle": "2021-03-15T00:00:00.000Z",
+      "lastCandle": "2025-06-09T12:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_futures_daily": {
+      "status": "PASS",
+      "rows": 1548,
+      "firstCandle": "2021-03-15T00:00:00.000Z",
+      "lastCandle": "2025-06-09T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_futures_weekly": {
+      "status": "PASS",
+      "rows": 222,
+      "firstCandle": "2021-03-15T00:00:00.000Z",
+      "lastCandle": "2025-06-09T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    },
+    "eth_futures_monthly": {
+      "status": "PASS",
+      "rows": 52,
+      "firstCandle": "2021-03-01T00:00:00.000Z",
+      "lastCandle": "2025-06-01T00:00:00.000Z",
+      "gapCount": 0,
+      "gaps": [],
+      "sar1ZeroRows": 0
+    }
+  },
+  "totalRows": 83303,
+  "passCount": 24,
+  "failCount": 0
+}

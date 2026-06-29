@@ -1,0 +1,728 @@
+{
+  "verifiedAt": "2026-06-14T15:08:18.567Z",
+  "totalPass": 24,
+  "totalFail": 0,
+  "allPassed": true,
+  "tables": {
+    "btc_spot_4h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 8613, Report: 8613"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 8408"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T20:00:00.000Z"
+        }
+      ]
+    },
+    "btc_spot_6h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 5742, Report: 5742"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 5596"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T18:00:00.000Z"
+        }
+      ]
+    },
+    "btc_spot_12h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 2871, Report: 2871"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 2800"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T12:00:00.000Z"
+        }
+      ]
+    },
+    "btc_spot_daily": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 1436, Report: 1436"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 1401"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T00:00:00.000Z"
+        }
+      ]
+    },
+    "btc_spot_weekly": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 206, Report: 206"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 198"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T00:00:00.000Z"
+        }
+      ]
+    },
+    "btc_spot_monthly": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 48, Report: 48"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 43"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-01T00:00:00.000Z"
+        }
+      ]
+    },
+    "btc_futures_4h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 11416, Report: 11416"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 11174"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T20:00:00.000Z"
+        }
+      ]
+    },
+    "btc_futures_6h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 7611, Report: 7611"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 7447"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T18:00:00.000Z"
+        }
+      ]
+    },
+    "btc_futures_12h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 3806, Report: 3806"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 3706"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T12:00:00.000Z"
+        }
+      ]
+    },
+    "btc_futures_daily": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 1903, Report: 1903"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 1858"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T00:00:00.000Z"
+        }
+      ]
+    },
+    "btc_futures_weekly": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 273, Report: 273"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 262"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T00:00:00.000Z"
+        }
+      ]
+    },
+    "btc_futures_monthly": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 64, Report: 64"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 58"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-01T00:00:00.000Z"
+        }
+      ]
+    },
+    "eth_spot_4h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 8613, Report: 8613"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 8439"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T20:00:00.000Z"
+        }
+      ]
+    },
+    "eth_spot_6h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 5742, Report: 5742"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 5608"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T18:00:00.000Z"
+        }
+      ]
+    },
+    "eth_spot_12h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 2871, Report: 2871"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 2807"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T12:00:00.000Z"
+        }
+      ]
+    },
+    "eth_spot_daily": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 1436, Report: 1436"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 1410"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T00:00:00.000Z"
+        }
+      ]
+    },
+    "eth_spot_weekly": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 206, Report: 206"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 199"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T00:00:00.000Z"
+        }
+      ]
+    },
+    "eth_spot_monthly": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 48, Report: 48"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 45"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-01T00:00:00.000Z"
+        }
+      ]
+    },
+    "eth_futures_4h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 9288, Report: 9288"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 9093"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T20:00:00.000Z"
+        }
+      ]
+    },
+    "eth_futures_6h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 6192, Report: 6192"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 6039"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T18:00:00.000Z"
+        }
+      ]
+    },
+    "eth_futures_12h": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 3096, Report: 3096"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 3029"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T12:00:00.000Z"
+        }
+      ]
+    },
+    "eth_futures_daily": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 1548, Report: 1548"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 1518"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T00:00:00.000Z"
+        }
+      ]
+    },
+    "eth_futures_weekly": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 222, Report: 222"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 215"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-09T00:00:00.000Z"
+        }
+      ]
+    },
+    "eth_futures_monthly": {
+      "verified": true,
+      "checks": [
+        {
+          "check": "row_count_match",
+          "pass": true,
+          "detail": "DB: 52, Report: 52"
+        },
+        {
+          "check": "lock_boundary",
+          "pass": true,
+          "detail": "Rows beyond lock: 0"
+        },
+        {
+          "check": "sar1_warmup_only",
+          "pass": true,
+          "detail": "SAR1=0 count: 0 (allowed ≤2)"
+        },
+        {
+          "check": "sar3_has_values",
+          "pass": true,
+          "detail": "SAR3 non-zero rows: 48"
+        },
+        {
+          "check": "last_candle_in_range",
+          "pass": true,
+          "detail": "Last candle: 2025-06-01T00:00:00.000Z"
+        }
+      ]
+    }
+  }
+}

@@ -1,12 +1,12 @@
 const { Client } = require('pg');
 
-// Shared connection config — avoids %40 URL-parse issues when DATABASE_URL is unset
+// DATABASE_URL must be set via GitHub Actions Secrets (production) or .env (local).
+// Never hard-code credentials. See .env.example for local setup.
 function getDbConfig() {
-    return process.env.DATABASE_URL
-        ? { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
-        : { host: 'aws-1-ap-northeast-1.pooler.supabase.com', port: 6543, database: 'postgres',
-            user: 'postgres.ybnpnpisvalswxyjjfvx', password: 'Qzh3nc8S@UQezjc',
-            ssl: { rejectUnauthorized: false } };
+    if (!process.env.DATABASE_URL) {
+        throw new Error('[mutex.js] DATABASE_URL is not set. Set it in GitHub Secrets or .env.');
+    }
+    return { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } };
 }
 
 async function acquireGlobalLock(lockId, lockedBy, ttlMinutes = 60) {

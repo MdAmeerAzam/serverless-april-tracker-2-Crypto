@@ -4,7 +4,7 @@ const { pool } = require('../api/db');
 const { PSAR } = require('technicalindicators');
 const { RestClientV5 } = require('bybit-api');
 
-const LOCK_TIMESTAMP_MS = 1749513599000; // June 9, 2026 23:59:59 UTC — never overwrite before this
+const LOCK_TIMESTAMP_MS = 1749513599000; // June 9, 2025 23:59:59 UTC — never overwrite before this
 
 const bybitClient = new RestClientV5({
     key: process.env.BYBIT_API_KEY,

@@ -21,9 +21,10 @@ for (const asset of ['btc', 'eth']) {
 
 const HEADER_VALUES = ['id', 'timestamp', 'date', 'open', 'high', 'low', 'sar1', 'sar2', 'sar3', 'closeValue', 'closePts', 'closePct', 'closeVol'];
 
-const pool = process.env.DATABASE_URL
-    ? new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, max: 5, connectionTimeoutMillis: 15000 })
-    : new Pool({ host: 'aws-1-ap-northeast-1.pooler.supabase.com', port: 6543, database: 'postgres', user: 'postgres.ybnpnpisvalswxyjjfvx', password: 'Qzh3nc8S@UQezjc', ssl: { rejectUnauthorized: false }, max: 5, connectionTimeoutMillis: 15000 });
+if (!process.env.DATABASE_URL) {
+    throw new Error('[run_sheets_reset.js] DATABASE_URL is not set. Set it in GitHub Secrets or .env.');
+}
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, max: 5, connectionTimeoutMillis: 15000 });
 
 async function getDoc() {
     const credsPath = path.join(process.cwd(), 'credentials.json');

@@ -3,6 +3,10 @@ name: Sheets Full Reset (One-Time G7)
 on:
   workflow_dispatch:
 
+concurrency:
+  group: crypto-sheets-reset
+  cancel-in-progress: true
+
 jobs:
   sheets-reset:
     name: Full Reset — Supabase → Google Sheets
@@ -12,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci
       - run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json

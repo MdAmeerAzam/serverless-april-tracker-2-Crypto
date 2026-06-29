@@ -1,17 +1,10 @@
-name: Audit Sheets Integrity
+name: DISABLED - Audit Sheets (was purge_db - DROP TABLE risk)
+# DISABLED: This workflow ran purge_db.js which drops database tables.
+# It has been disabled permanently. Do not re-enable without full review.
 on:
   workflow_dispatch:
 jobs:
-  audit:
+  disabled:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: npm ci
-      - run: node scripts/purge_db.js
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+      - run: echo "This workflow is disabled. It previously ran purge_db.js (DROP TABLE). Contact admin before re-enabling."
